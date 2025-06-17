@@ -1,0 +1,52 @@
+\section{Casos de teste}
+
+A principal comparação analisada neste trabalho é entre os algoritmos de Briggs e George-Appel.
+Como o algoritmo de George-Appel representa uma evolução direta sobre o de Briggs, essa comparação é
+especialmente relevante para evidenciar as melhorias introduzidas.
+
+No estudo apresentado por \textcite{irc}, é realizada uma comparação empírica entre os algoritmos utilizando sete programas escritos na
+linguagem Standard ML, compilados com o compilador SML/NJ. Esses programas foram selecionados por possuírem características variadas,
+tais como: diferentes tamanhos, presença ou ausência de modularização, e variáveis com durações de vida longas ou curtas.
+Essas variações tornam o conjunto de testes representativo de diferentes cenários encontrados em compiladores reais, conferindo robustez
+à comparação entre os algoritmos.
+
+Uma limitação importante dos algoritmos originais de Briggs, identificada no estudo, é a ausência de suporte adequado para vértices
+pré-coloridos — situação comum em chamadas de função ou em otimizações específicas do compilador. Devido ao uso de estratégias de coalescência
+mais agressivas, esses algoritmos, por vezes, geravam grafos não coloríveis, impedindo a finalização do processo de alocação de registradores.
+Assim, a comparação entre os algoritmos foi conduzida apenas nas situações em que o algoritmo de Briggs produzia resultados viáveis, de modo
+a garantir uma análise justa e tecnicamente válida.
+
+\subsection{Expectativas}
+
+Visto que a melhoria do algoritmo de George-Appel é focalizada no processo de coalescência, é esperado que as melhorias se encontrem nessa parte, ou seja
+a quantidade de nós agrupados seja maior do que no algoritmo de Briggs. Dessa forma, reduzindo a quantidade de instruções de move 
+($x \leftarrow y$) no código de máquina gerado.
+
+
+\subsection{Expectativas}
+
+Como a principal melhoria introduzida pelo algoritmo de George-Appel está relacionada ao processo de coalescência, é natural que os ganhos
+de desempenho se manifestem nessa etapa. Especificamente, espera-se um aumento na quantidade de nós coalescidos, ou seja, uma maior fusão de
+movimentos(instruções de move, do tipo $x \leftarrow y$) entre variáveis , o que leva à geração de menos instruções de transferência no código 
+de máquina final. Essa otimização contribui tanto para a redução do tamanho do código quanto para sua eficiência em tempo de execução.
+
+\subsection{Resultados}
+
+\subsubsection{Coalescência}
+
+No primeiro conjunto de testes, a métrica avaliada foi a taxa de vértices coalescidos no grafo de interferência. O algoritmo de Briggs
+apresentou uma média de aproximadamente 64\% de coalescência, enquanto o algoritmo de George-Appel atingiu cerca de 86\%. Esse aumento significativo
+confirma as expectativas iniciais e evidencia a eficácia da abordagem aprimorada. A maior taxa de coalescência implica na eliminação de mais instruções
+de movimento, resultando em um código de máquina mais enxuto e eficiente.
+
+\subsubsection{Tamanho do código}
+
+Como consequência direta da coalescência aprimorada, observou-se uma redução no tamanho do código assembly gerado. O algoritmo de George-Appel produziu,
+em média, um código 5\% menor em relação ao gerado pelo algoritmo de Briggs. Essa diferença, embora modesta, pode representar ganhos importantes
+em ambientes com restrições de memória ou largura de banda.
+
+\subsubsection{Desempenho em tempo de execução}
+
+Por fim, as melhorias introduzidas no processo de alocação impactaram também o desempenho em tempo de execução dos programas compilados.
+As otimizações resultaram em uma redução média de 4,4\% no tempo de execução dos casos de teste. Essa melhora reforça o argumento de que estratégias
+de coalescência mais eficazes não apenas reduzem o número de instruções, como também contribuem para a geração de código mais rápido.
