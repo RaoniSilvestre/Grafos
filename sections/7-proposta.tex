@@ -1,1 +1,40 @@
-\section{Proposta de abordagem}
+\section{Proposta de abordagem algorítmica}
+
+A proposta deste trabalho é implementar, de forma didática, o algoritmo de Iterated Register Coalescing (IRC),
+introduzido por George-Appel, como uma abordagem representativa e avançada para o problema de alocação de registradores
+baseada em coloração de grafos. A implementação visa explorar os principais mecanismos internos do algoritmo e compreender
+suas estratégias de otimização, com foco educacional.
+
+A entrada para o algoritmo será um grafo de interferência já construído, representado por uma lista de adjacência. Cada nó
+desse grafo representa uma variável temporária, e cada aresta indica interferência entre duas variáveis — ou seja, a impossibilidade
+de ambas ocuparem o mesmo registrador. Essa representação abstrai etapas anteriores como análise de \textit{liveness} e
+construção do grafo, as quais envolvem complexidades adicionais como o \textit{liveness splitting}, e são consideradas
+fora do escopo deste projeto. Além disso, também será omitida a parte de realizar uma coloração em um grafo com nós pré-coloridos.
+
+A implementação será realizada em Python, visando simplicidade e clareza do código. O algoritmo será organizado
+nas seguintes fases:
+
+\begin{itemize}
+  \item \textbf{Simplificação}: remoção iterativa de nós com grau inferior ao número de registradores disponíveis,
+    armazenando-os em uma pilha para posterior coloração.
+  \item \textbf{Coalescência}: fusão segura de nós relacionados a instruções de cópia, com base em heurísticas conservadoras
+    (como o critério de George), buscando reduzir a quantidade de instruções \texttt{move} no código final.
+  \item \textbf{Congelamento}: paralisação de nós de cópia quando não é possível coalescê-los de forma segura, transferindo-os
+    para a fase de simplificação.
+  \item \textbf{Spill}: identificação e remoção de nós com alta interferência, que não podem ser alocados com os registradores
+    disponíveis. Esses nós são marcados como \textit{spillados} e tratados posteriormente.
+  \item \textbf{Seleção}: desempilhamento e coloração dos nós, atribuindo registradores disponíveis. Caso não haja registrador
+    viável para um nó, ele também é marcado como \textit{spill}.
+  \item \textbf{Reconstrução}: Reconstrução do grafo a partir de nós que foram considerados \textit{spillados}, transformando-os
+    em mais nós com menos tempos de vida e consequentemente, menos interferência com outras variáveis. 
+\end{itemize}
+
+Dessa forma, será possível exemplificar o funcionamento do algoritmo de George e Appel de maneira a destacar suas otimizações
+utilizando heuristicas para colorir o grafo de interferência, tais como a natureza iterativa do processo de simplificação e 
+coalescência de nós. 
+
+Espera-se que essa implementação forneça subsídios suficientes para entender as escolhas algorítmicas envolvidas em alocadores
+realistas de registradores, bem como para permitir análises qualitativas dos resultados obtidos, como o número
+de instruções de cópia eliminadas e a frequência de \textit{spills}.
+
+
