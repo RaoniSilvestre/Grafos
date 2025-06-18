@@ -1,23 +1,25 @@
 \section{Revisão bibliográfica}
-A abordagem inicial da otimização do uso de registradores pelo método de coloração de grafos de interferência data do artigo publicado por Chaitin et al, 1981.
-\\
-\\
-A abordagen de Chaitin consiste em uma abordagem em quatro etapas. Primeiro, é cria-se um grafo onde cada vértice representa uma variável, vértices são ligados por arestas caso a variável em questão coexista em tempo de vida com a outra. Em seguida,o algoritmo colore o grafo, caso o grau do vértice seja menor que o número de registradores, armazene-o em uma pilha. Em seguida, desempilhe-o e atribua uma cor, caso não seja possível, dado que seus vértices adjacentes já receberam uma cor no grafo original, derrame ( spill ) o vértice para a memória ram. Caso alguma variável esteja na ram, o processo de construção do grafo é repetido incluindo o acesso às variáveis em ram.
-\\
-\\
-Em seguida, em 1986, Briggs et al. refinam o algoritmo de Chaitin, otimizando três etapas do processo.
-\\
-\\
-Primeiro, otimiza a heurística de Chaitin, ao invés de empilhar o vértice com grau menor que o número de cores remove vértices com o grau maior ou igual que resultam em vértices adjacentes cujo resultado torna os demais em coloríveis.
-\\
-\\
-A seleção de vértice a ser derramado é feita então por frequência de uso da variável, quanto mais usada a variável for, menor chance de ser armazenado na ram, dado a sua maior latência de acesso.
-\\
-\\
+
+A abordagem inicial da otimização do uso de registradores pelo método de coloração de grafos de interferência data do artigo publicado por \textcite{chaitin}.
+
+A abordagen de Chaitin consiste em uma abordagem em quatro etapas. Primeiro, é cria-se um grafo onde cada vértice representa uma variável,
+vértices são ligados por arestas caso a variável em questão coexista em tempo de vida com a outra. Em seguida,o algoritmo colore o grafo,
+caso o grau do vértice seja menor que o número de registradores, armazene-o em uma pilha. Em seguida, desempilhe-o e atribua uma cor,
+caso não seja possível, dado que seus vértices adjacentes já receberam uma cor no grafo original, derrame ( spill ) o vértice para a
+memória ram. Caso alguma variável esteja na ram, o processo de construção do grafo é repetido incluindo o acesso às variáveis em ram.
+
+Em seguida, \textcite{briggs} refinam o algoritmo de Chaitin, otimizando três etapas do processo.
+
+Primeiro, otimiza a heurística de Chaitin, ao invés de empilhar o vértice com grau menor que o número de cores remove vértices com o
+grau maior ou igual que resultam em vértices adjacentes cujo resultado torna os demais em coloríveis.
+
+A seleção de vértice a ser derramado é feita então por frequência de uso da variável, quanto mais usada a variável for, menor
+chance de ser armazenado na ram, dado a sua maior latência de acesso.
+
 Por fim, o uso de coalescência, caso dois vértices sejam de uma mesma variável cópia que não interfiram entre si, os vértices são fundidos em um único nó.
-\\
-\\
-Agora, o algoritmo de George e Appel et al. Aprimorando o trabalho de Briggs e Chaitin com regras de coalescência otimizadas de tal forma que previna que o grafo resultante não gere nós impossíveis de serem coloridos com o número de cores dados.
-\\
-\\
-Parte do motivo dessa área de pesquisa estagnar por volta de 1996 ocorre pela popularização de outros métodos na otimização de registradores, como o uso de aprendizado de máquina, redes neurais de grafos e aprendizado por reforço.
+
+Agora, o algoritmo de \textcite{irc} Aprimorando o trabalho de Briggs e Chaitin com regras de coalescência otimizadas de tal forma que previna que
+o grafo resultante não gere nós impossíveis de serem coloridos com o número de cores dados.
+
+Parte do motivo dessa área de pesquisa estagnar por volta de 1996 ocorre pela popularização de outros métodos na otimização de registradores,
+como o uso de aprendizado de máquina, redes neurais de grafos e aprendizado por reforço.
